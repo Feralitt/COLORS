@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#00FFFFFF"
+    android:visibility="visible"
     tools:context=".activity_easy_game">
 
     <TextView
@@ -17,4 +19,110 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/easyButton"
+        android:layout_width="412dp"
+        android:layout_height="730dp"
+        android:background="#009688"
+        android:text="Button"
+        android:textColor="#00FF0000"
+        android:visibility="invisible"
+        app:cornerRadius="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/buttonStart"
+        android:layout_width="410dp"
+        android:layout_height="171dp"
+        android:layout_marginBottom="16dp"
+        android:text="Начать"
+        android:textSize="34sp"
+        android:visibility="visible"
+        app:cornerRadius="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.487"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/red"
+        android:layout_width="417dp"
+        android:layout_height="420dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/red" />
+
+    <ImageView
+        android:id="@+id/orange"
+        android:layout_width="414dp"
+        android:layout_height="418dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/orange" />
+
+    <ImageView
+        android:id="@+id/yellow"
+        android:layout_width="417dp"
+        android:layout_height="418dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/easyButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/yellow" />
+
+    <ImageView
+        android:id="@+id/green"
+        android:layout_width="422dp"
+        android:layout_height="418dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/easyButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/green" />
+
+    <ImageView
+        android:id="@+id/lightBlue"
+        android:layout_width="419dp"
+        android:layout_height="418dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/easyButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/light_blue" />
+
+    <ImageView
+        android:id="@+id/blue"
+        android:layout_width="422dp"
+        android:layout_height="421dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/easyButton"
+        app:srcCompat="@drawable/blue" />
+
+    <ImageView
+        android:id="@+id/purple"
+        android:layout_width="423dp"
+        android:layout_height="421dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/easyButton"
+        app:srcCompat="@drawable/purple" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

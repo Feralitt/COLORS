@@ -22,17 +22,19 @@
 
     <Button
         android:id="@+id/easyButton"
-        android:layout_width="412dp"
-        android:layout_height="730dp"
-        android:background="#009688"
+        android:layout_width="458dp"
+        android:layout_height="810dp"
+        android:background="#00009688"
         android:text="Button"
         android:textColor="#00FF0000"
         android:visibility="invisible"
         app:cornerRadius="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.51"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.987" />
 
     <Button
         android:id="@+id/buttonStart"
@@ -77,8 +79,10 @@
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/easyButton"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.501"
         app:srcCompat="@drawable/yellow" />
 
     <ImageView
@@ -105,13 +109,13 @@
 
     <ImageView
         android:id="@+id/blue"
-        android:layout_width="422dp"
-        android:layout_height="421dp"
+        android:layout_width="428dp"
+        android:layout_height="418dp"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/easyButton"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/blue" />
 
     <ImageView
@@ -122,7 +126,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/easyButton"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/purple" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,16 +1,22 @@
 package com.example.colors
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
+import kotlinx.coroutines.*
 
 
-class activity_easy_game : AppCompatActivity() {
+class activity_easy_game : ActivityWithoutBack() {
+    var currentColor = -1
+    val running = true
+    var goal = 0
+
+    @OptIn(DelicateCoroutinesApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_easy_game)
@@ -25,12 +31,10 @@ class activity_easy_game : AppCompatActivity() {
         val lightBlue: ImageView = findViewById(R.id.lightBlue)
         val blue: ImageView = findViewById(R.id.blue)
         val purple: ImageView = findViewById(R.id.purple)
-        val running = true
-        val currentColor = 0
 
         // tooltip  0 - red, 1 - orange, 2 - yellow, 3 - green, 4 - light_blue, 5 - blue, 6 - purple
         // последнее число в random это не включительно
-        val goal = (0 until 6 + 1).random()
+        goal = (0 until 6 + 1).random()
         if (goal == 0)
             goalText.text = "Твоя цель - красный цвет"
         else if (goal == 1)
@@ -46,91 +50,65 @@ class activity_easy_game : AppCompatActivity() {
         else if (goal == 6)
             goalText.text = "Твоя цель - фиолетовый цвет"
 
+
+
+        fun game() = runBlocking {
+            GlobalScope.launch(context = Dispatchers.Main) {
+                while (running) {
+                    delay(1000)
+                    currentColor = (0 until 6 + 1).random()
+                    red.visibility = View.INVISIBLE
+                    orange.visibility = View.INVISIBLE
+                    yellow.visibility = View.INVISIBLE
+                    green.visibility = View.INVISIBLE
+                    lightBlue.visibility = View.INVISIBLE
+                    blue.visibility = View.INVISIBLE
+                    purple.visibility = View.INVISIBLE
+                    if (currentColor == 0) {
+                        red.setImageResource(R.drawable.red)
+                        red.visibility = View.VISIBLE
+                    } else if (currentColor == 1) {
+                        orange.setImageResource(R.drawable.orange)
+                        orange.visibility = View.VISIBLE
+                    } else if (currentColor == 2) {
+                        yellow.setImageResource(R.drawable.yellow)
+                        yellow.visibility = View.VISIBLE
+                    } else if (currentColor == 3) {
+                        green.setImageResource(R.drawable.green)
+                        green.visibility = View.VISIBLE
+                    } else if (currentColor == 4) {
+                        lightBlue.setImageResource(R.drawable.light_blue)
+                        lightBlue.visibility = View.VISIBLE
+                    } else if (currentColor == 5) {
+                        blue.setImageResource(R.drawable.blue)
+                        blue.visibility = View.VISIBLE
+                    } else if (currentColor == 6) {
+                        purple.setImageResource(R.drawable.purple)
+                        purple.visibility = View.VISIBLE
+                    }
+                }
+            }
+        }
+
         startButton.setOnClickListener {
             goalText.visibility = View.GONE
             startButton.visibility = View.GONE
             ezButton.visibility = View.VISIBLE
+            game()
         }
 
-
         ezButton.setOnClickListener {
-            while (running == true) {
-                //Thread.sleep(1000)
-                val currentColor = (0 until 6 + 1).random()
-                if (currentColor == 0) {
-                    red.visibility = View.VISIBLE
-                    orange.visibility = View.INVISIBLE
-                    yellow.visibility = View.INVISIBLE
-                    green.visibility = View.INVISIBLE
-                    lightBlue.visibility = View.INVISIBLE
-                    blue.visibility = View.INVISIBLE
-                    purple.visibility = View.INVISIBLE
-                }
-                else if (currentColor == 1) {
-                    orange.visibility = View.VISIBLE
-                    red.visibility = View.INVISIBLE
-                    yellow.visibility = View.INVISIBLE
-                    green.visibility = View.INVISIBLE
-                    lightBlue.visibility = View.INVISIBLE
-                    blue.visibility = View.INVISIBLE
-                    purple.visibility = View.INVISIBLE
-                }
-                else if (currentColor == 2) {
-                    yellow.visibility = View.VISIBLE
-                    red.visibility = View.INVISIBLE
-                    orange.visibility = View.INVISIBLE
-                    green.visibility = View.INVISIBLE
-                    lightBlue.visibility = View.INVISIBLE
-                    blue.visibility = View.INVISIBLE
-                    purple.visibility = View.INVISIBLE
-                }
-                else if (currentColor == 3){
-                    green.visibility = View.VISIBLE
-                    red.visibility = View.INVISIBLE
-                    orange.visibility = View.INVISIBLE
-                    yellow.visibility = View.INVISIBLE
-                    lightBlue.visibility = View.INVISIBLE
-                    blue.visibility = View.INVISIBLE
-                    purple.visibility = View.INVISIBLE
-                }
-                else if (currentColor == 4) {
-                    lightBlue.visibility = View.VISIBLE
-                    red.visibility = View.INVISIBLE
-                    orange.visibility = View.INVISIBLE
-                    yellow.visibility = View.INVISIBLE
-                    green.visibility = View.INVISIBLE
-                    blue.visibility = View.INVISIBLE
-                    purple.visibility = View.INVISIBLE
-                }
-                else if (currentColor == 5) {
-                    blue.visibility = View.VISIBLE
-                    red.visibility = View.INVISIBLE
-                    orange.visibility = View.INVISIBLE
-                    yellow.visibility = View.INVISIBLE
-                    green.visibility = View.INVISIBLE
-                    lightBlue.visibility = View.INVISIBLE
-                    purple.visibility = View.INVISIBLE
-                }
-                else if (currentColor == 6) {
-                    purple.visibility = View.VISIBLE
-                    red.visibility = View.INVISIBLE
-                    orange.visibility = View.INVISIBLE
-                    yellow.visibility = View.INVISIBLE
-                    green.visibility = View.INVISIBLE
-                    lightBlue.visibility = View.INVISIBLE
-                    blue.visibility = View.INVISIBLE
-
-
-                }
-            }
-
             if (currentColor == goal) {
                 val winText = Toast.makeText(this, "Вы победили!", Toast.LENGTH_SHORT)
                 winText.show()
+                val toActivitySelectDiff = Intent(this, selectDiff::class.java)
+                startActivity(toActivitySelectDiff)
             }
-            else {
+            if (currentColor != goal) {
                 val loseText = Toast.makeText(this, "Вы проиграли!", Toast.LENGTH_SHORT)
                 loseText.show()
+                val toActivitySelectDiff = Intent(this, selectDiff::class.java)
+                startActivity(toActivitySelectDiff)
             }
         }
 

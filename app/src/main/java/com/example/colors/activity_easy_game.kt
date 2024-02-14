@@ -15,6 +15,8 @@ class activity_easy_game : ActivityWithoutBack() {
     var currentColor = -1
     val running = true
     var goal = 0
+    var startTime: Long = 0
+    var endTime: Long = 0
 
     @OptIn(DelicateCoroutinesApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,6 +55,7 @@ class activity_easy_game : ActivityWithoutBack() {
 
 
         fun game() = runBlocking {
+            startTime = System.currentTimeMillis()
             GlobalScope.launch(context = Dispatchers.Main) {
                 while (running) {
                     delay(1000)
@@ -98,9 +101,13 @@ class activity_easy_game : ActivityWithoutBack() {
         }
 
         ezButton.setOnClickListener {
+            endTime = System.currentTimeMillis()
+            val reactionTime = endTime - startTime
             if (currentColor == goal) {
                 val winText = Toast.makeText(this, "Вы победили!", Toast.LENGTH_SHORT)
                 winText.show()
+                val reactionShow = Toast.makeText(this, "время реакции" + reactionTime, Toast.LENGTH_SHORT)
+                reactionShow.show()
                 val toActivitySelectDiff = Intent(this, selectDiff::class.java)
                 startActivity(toActivitySelectDiff)
             }

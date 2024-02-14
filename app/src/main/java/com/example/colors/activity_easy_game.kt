@@ -55,7 +55,7 @@ class activity_easy_game : ActivityWithoutBack() {
 
 
         fun game() = runBlocking {
-            startTime = System.currentTimeMillis()
+
             GlobalScope.launch(context = Dispatchers.Main) {
                 while (running) {
                     delay(1000)
@@ -89,6 +89,7 @@ class activity_easy_game : ActivityWithoutBack() {
                         purple.setImageResource(R.drawable.purple)
                         purple.visibility = View.VISIBLE
                     }
+                    startTime = System.currentTimeMillis()
                 }
             }
         }
@@ -106,7 +107,7 @@ class activity_easy_game : ActivityWithoutBack() {
             if (currentColor == goal) {
                 val winText = Toast.makeText(this, "Вы победили!", Toast.LENGTH_SHORT)
                 winText.show()
-                val reactionShow = Toast.makeText(this, "время реакции" + reactionTime, Toast.LENGTH_SHORT)
+                val reactionShow = Toast.makeText(this, "время реакции 0," + reactionTime + " сек", Toast.LENGTH_SHORT)
                 reactionShow.show()
                 val toActivitySelectDiff = Intent(this, selectDiff::class.java)
                 startActivity(toActivitySelectDiff)

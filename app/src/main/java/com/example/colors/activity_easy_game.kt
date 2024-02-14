@@ -1,6 +1,7 @@
 package com.example.colors
 
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -102,15 +103,22 @@ class activity_easy_game : ActivityWithoutBack() {
         }
 
         ezButton.setOnClickListener {
-            endTime = System.currentTimeMillis()
-            val reactionTime = endTime - startTime
             if (currentColor == goal) {
+                endTime = System.currentTimeMillis()
+                val reactionTime = endTime - startTime
                 val winText = Toast.makeText(this, "Вы победили!", Toast.LENGTH_SHORT)
                 winText.show()
                 val reactionShow = Toast.makeText(this, "время реакции 0," + reactionTime + " сек", Toast.LENGTH_SHORT)
                 reactionShow.show()
                 val toActivitySelectDiff = Intent(this, selectDiff::class.java)
                 startActivity(toActivitySelectDiff)
+                val sharedPrefs = getSharedPreferences("RecordsPrefs", Context.MODE_PRIVATE)
+                val recordEz = sharedPrefs.getLong("recordEz", Long.MAX_VALUE)
+                if (reactionTime < recordEz) {
+                    val editor = sharedPrefs.edit()
+                    editor.putLong("recordEz", reactionTime)
+                    editor.apply()
+                }
             }
             if (currentColor != goal) {
                 val loseText = Toast.makeText(this, "Вы проиграли!", Toast.LENGTH_SHORT)

@@ -7,7 +7,7 @@
     tools:context=".Records">
 
     <Button
-        android:id="@+id/buttonBackToMenuRecords"
+        android:id="@+id/buttonBackToMenu"
         android:layout_width="136dp"
         android:layout_height="76dp"
         android:layout_marginBottom="120dp"
@@ -101,4 +101,16 @@
         app:layout_constraintHorizontal_bias="0.055"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/labelRecordsMedium" />
+
+    <Button
+        android:id="@+id/buttonClearRecords"
+        android:layout_width="137dp"
+        android:layout_height="74dp"
+        android:layout_marginBottom="4dp"
+        android:text="сброс"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/buttonBackToMenu"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

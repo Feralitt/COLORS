@@ -1,9 +1,11 @@
 package com.example.colors
 
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.MotionEvent
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -19,6 +21,7 @@ class activity_easy_game : ActivityWithoutBack() {
     var startTime: Long = 0
     var endTime: Long = 0
 
+    @SuppressLint("ClickableViewAccessibility")
     @OptIn(DelicateCoroutinesApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -102,43 +105,46 @@ class activity_easy_game : ActivityWithoutBack() {
             game()
         }
 
-        ezButton.setOnClickListener {
-            if (currentColor == goal) {
-                endTime = System.currentTimeMillis()
-                val reactionTime = endTime - startTime
-                val winText = Toast.makeText(this, "Вы победили!", Toast.LENGTH_SHORT)
-                winText.show()
-                if (reactionTime < 10){
-                    val reactionShow = Toast.makeText(this, "время реакции 0,00" + reactionTime + " сек", Toast.LENGTH_SHORT)
+        ezButton.setOnTouchListener { view, motionEvent ->
+            if (motionEvent.action == MotionEvent.ACTION_DOWN) {
+                // код после нажатия
+                if (currentColor == goal) {
+                    endTime = System.currentTimeMillis()
+                    val reactionTime = endTime - startTime
+                    val winText = Toast.makeText(this, "Вы победили!", Toast.LENGTH_SHORT)
+                    winText.show()
+                    // обработка времени реакции
+                    val reactionTimeString = when {
+                        reactionTime < 10 -> "0,00$reactionTime сек"
+                        reactionTime < 100 -> "0,0$reactionTime сек"
+                        else -> "0,$reactionTime сек"
+                    }
+                    val reactionShow = Toast.makeText(this, "время реакции $reactionTimeString", Toast.LENGTH_SHORT)
                     reactionShow.show()
-                }else if (reactionTime < 100){
-                    val reactionShow = Toast.makeText(this, "время реакции 0,0" + reactionTime + " сек", Toast.LENGTH_SHORT)
-                    reactionShow.show()
-                }else {
-                    val reactionShow = Toast.makeText(this, "время реакции 0," + reactionTime + " сек", Toast.LENGTH_SHORT)
-                    reactionShow.show()
+                    // сохранение рекорда
+                    val sharedPrefs = getSharedPreferences("RecordsPrefs", Context.MODE_PRIVATE)
+                    val recordEz = sharedPrefs.getLong("recordEz", Long.MAX_VALUE)
+                    if (reactionTime < recordEz) {
+                        val editor = sharedPrefs.edit()
+                        editor.putLong("recordEz", reactionTime)
+                        editor.apply()
+                    }
+                    // переход к выбору сложности
+                    val toActivitySelectDiff = Intent(this, selectDiff::class.java)
+                    startActivity(toActivitySelectDiff)
+                } else {
+                    // обработка проигрыша
+                    val loseText = Toast.makeText(this, "Вы проиграли!", Toast.LENGTH_SHORT)
+                    loseText.show()
+                    // переход к выбору сложности
+                    val toActivitySelectDiff = Intent(this, selectDiff::class.java)
+                    startActivity(toActivitySelectDiff)
                 }
-
-
-                val toActivitySelectDiff = Intent(this, selectDiff::class.java)
-                startActivity(toActivitySelectDiff)
-                val sharedPrefs = getSharedPreferences("RecordsPrefs", Context.MODE_PRIVATE)
-                val recordEz = sharedPrefs.getLong("recordEz", Long.MAX_VALUE)
-                if (reactionTime < recordEz) {
-                    val editor = sharedPrefs.edit()
-                    editor.putLong("recordEz", reactionTime)
-                    editor.apply()
-                }
-            }
-            if (currentColor != goal) {
-                val loseText = Toast.makeText(this, "Вы проиграли!", Toast.LENGTH_SHORT)
-                loseText.show()
-                val toActivitySelectDiff = Intent(this, selectDiff::class.java)
-                startActivity(toActivitySelectDiff)
+                true // дальше нужная шняга чтобы setOnTouch работал
+            } else {
+                false
             }
         }
-
-
 
     }
 }

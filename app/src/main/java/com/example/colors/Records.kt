@@ -22,8 +22,13 @@ class Records : ActivityWithoutBack() {
         // если рекорда нет, то он None, а если есть, то он записывавется в переменную
         val recordText = if (recordEz == -1L)
             "None"
-        else
-            "0,${recordEz} сек"
+        else if (recordEz < 10) {
+            "0,00${recordEz} сек"
+        }
+        else if (recordEz < 100) {
+            "0,0${recordEz} сек"
+        }
+        else "0,${recordEz} сек"
         labelRecordEz.text = recordText
 
         val buttonBackToMenuRecords: Button = findViewById(R.id.buttonBackToMenu)

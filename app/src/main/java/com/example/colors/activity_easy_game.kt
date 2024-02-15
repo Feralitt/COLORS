@@ -108,8 +108,18 @@ class activity_easy_game : ActivityWithoutBack() {
                 val reactionTime = endTime - startTime
                 val winText = Toast.makeText(this, "Вы победили!", Toast.LENGTH_SHORT)
                 winText.show()
-                val reactionShow = Toast.makeText(this, "время реакции 0," + reactionTime + " сек", Toast.LENGTH_SHORT)
-                reactionShow.show()
+                if (reactionTime < 10){
+                    val reactionShow = Toast.makeText(this, "время реакции 0,00" + reactionTime + " сек", Toast.LENGTH_SHORT)
+                    reactionShow.show()
+                }else if (reactionTime < 100){
+                    val reactionShow = Toast.makeText(this, "время реакции 0,0" + reactionTime + " сек", Toast.LENGTH_SHORT)
+                    reactionShow.show()
+                }else {
+                    val reactionShow = Toast.makeText(this, "время реакции 0," + reactionTime + " сек", Toast.LENGTH_SHORT)
+                    reactionShow.show()
+                }
+
+
                 val toActivitySelectDiff = Intent(this, selectDiff::class.java)
                 startActivity(toActivitySelectDiff)
                 val sharedPrefs = getSharedPreferences("RecordsPrefs", Context.MODE_PRIVATE)

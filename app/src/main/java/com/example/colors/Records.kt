@@ -13,12 +13,16 @@ class Records : ActivityWithoutBack() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_records)
         val labelRecordEz: TextView = findViewById(R.id.labelRecordsEasy)
+        val labelRecordMedium: TextView = findViewById(R.id.labelRecordsMedium)
         val buttonClearRecords: Button = findViewById(R.id.buttonClearRecords)
 
         val sharedPrefs = getSharedPreferences("RecordsPrefs", Context.MODE_PRIVATE)
+        val sharedPrefs2 = getSharedPreferences("RecordsPrefs2", Context.MODE_PRIVATE)
         // если рекорда нет, он -1
         var recordEz = sharedPrefs.getLong("recordEz", -1)
+        var recordMedium = sharedPrefs2.getLong("recordMedium", -1)
 
+        // рекорды для лёгкой сложности
         // если рекорда нет, то он None, а если есть, то он записывавется в переменную
         val recordText = if (recordEz == -1L)
             "None"
@@ -30,6 +34,22 @@ class Records : ActivityWithoutBack() {
         }
         else "0,${recordEz} сек"
         labelRecordEz.text = recordText
+
+        // рекорды для средней сложности
+        // если рекорда нет, то он None, а если есть, то он записывавется в переменную
+        val recordTextMedium = if (recordMedium == -1L)
+            "None"
+        else if (recordMedium < 10) {
+            "0,00${recordMedium} сек"
+        }
+        else if (recordMedium < 100) {
+            "0,0${recordMedium} сек"
+        }
+        else "0,${recordMedium} сек"
+        labelRecordMedium.text = recordTextMedium
+
+
+
 
         val buttonBackToMenuRecords: Button = findViewById(R.id.buttonBackToMenu)
 
@@ -44,6 +64,12 @@ class Records : ActivityWithoutBack() {
             editor.remove("recordEz")
             editor.apply()
             labelRecordEz.text = "None"
+
+            //сброс рекорда средней сложности
+            val editorMedium = sharedPrefs2.edit()
+            editorMedium.remove("recordMedium")
+            editorMedium.apply()
+            labelRecordMedium.text = "None"
     }
     }
 }

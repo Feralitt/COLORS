@@ -1,6 +1,5 @@
 package com.example.colors
 
-
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
@@ -11,24 +10,32 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import kotlinx.coroutines.*
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
-
-class activity_easy_game : ActivityWithoutBack() {
+class activity_medium_game : ActivityWithoutBack() {
     var currentColor = -1
+    var previousColor = -1
     val running = true
-    var goal = 0
+    var goal1 = 0
+    var goal2 = 0
     var startTime: Long = 0
     var endTime: Long = 0
 
-    @SuppressLint("ClickableViewAccessibility")
+    @SuppressLint("ClickableViewAccessibility", "MissingInflatedId")
     @OptIn(DelicateCoroutinesApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_easy_game)
+        setContentView(R.layout.activity_medium_game)
 
         val startButton: Button = findViewById(R.id.buttonStart)
-        val goalText: TextView = findViewById(R.id.textViewGoal1Medium)
+        val goal1Text: TextView = findViewById(R.id.textViewGoal1Medium)
+        val goal2Text: TextView = findViewById(R.id.textViewGoal2Medium)
+        val goalText: TextView = findViewById(R.id.textViewGoalTextMedium)
         val ezButton: Button = findViewById(R.id.easyButton)
         val red: ImageView = findViewById(R.id.red)
         val orange: ImageView = findViewById(R.id.orange)
@@ -40,21 +47,37 @@ class activity_easy_game : ActivityWithoutBack() {
 
         // tooltip  0 - red, 1 - orange, 2 - yellow, 3 - green, 4 - light_blue, 5 - blue, 6 - purple
         // последнее число в random это не включительно
-        goal = (0 until 6 + 1).random()
-        if (goal == 0)
-            goalText.text = "Твоя цель - красный цвет"
-        else if (goal == 1)
-            goalText.text = "Твоя цель - оранжевый цвет"
-        else if (goal == 2)
-            goalText.text = "Твоя цель - жёлтый цвет"
-        else if (goal == 3)
-            goalText.text = "Твоя цель - зелёный цвет"
-        else if (goal == 4)
-            goalText.text = "Твоя цель - голубой цвет"
-        else if (goal == 5)
-            goalText.text = "Твоя цель - синий цвет"
-        else if (goal == 6)
-            goalText.text = "Твоя цель - фиолетовый цвет"
+        goal1 = (0 until 6 + 1).random()
+        goal2 = (0 until 6 + 1).random()
+        if (goal1 == 0)
+            goal1Text.text = "красный"
+        else if (goal1 == 1)
+            goal1Text.text = "оранжевый"
+        else if (goal1 == 2)
+            goal1Text.text = "жёлтый"
+        else if (goal1 == 3)
+            goal1Text.text = "зелёный"
+        else if (goal1 == 4)
+            goal1Text.text = "голубой"
+        else if (goal1 == 5)
+            goal1Text.text = "синий"
+        else if (goal1 == 6)
+            goal1Text.text = "фиолетовый"
+
+        if (goal2 == 0)
+            goal2Text.text = "красный"
+        else if (goal2 == 1)
+            goal2Text.text = "оранжевый"
+        else if (goal2 == 2)
+            goal2Text.text = "жёлтый"
+        else if (goal2 == 3)
+            goal2Text.text = "зелёный"
+        else if (goal2 == 4)
+            goal2Text.text = "голубой"
+        else if (goal2 == 5)
+            goal2Text.text = "синий"
+        else if (goal2 == 6)
+            goal2Text.text = "фиолетовый"
 
 
 
@@ -62,7 +85,8 @@ class activity_easy_game : ActivityWithoutBack() {
 
             GlobalScope.launch(context = Dispatchers.Main) {
                 while (running) {
-                    delay(1000)
+                    delay(850)
+                    previousColor = currentColor
                     currentColor = (0 until 6 + 1).random()
                     red.visibility = View.INVISIBLE
                     orange.visibility = View.INVISIBLE
@@ -93,12 +117,15 @@ class activity_easy_game : ActivityWithoutBack() {
                         purple.setImageResource(R.drawable.purple)
                         purple.visibility = View.VISIBLE
                     }
+
                     startTime = System.currentTimeMillis()
                 }
             }
         }
 
         startButton.setOnClickListener {
+            goal1Text.visibility = View.GONE
+            goal2Text.visibility = View.GONE
             goalText.visibility = View.GONE
             startButton.visibility = View.GONE
             ezButton.visibility = View.VISIBLE
@@ -108,7 +135,7 @@ class activity_easy_game : ActivityWithoutBack() {
         ezButton.setOnTouchListener { view, motionEvent ->
             if (motionEvent.action == MotionEvent.ACTION_DOWN) {
                 // код после нажатия
-                if (currentColor == goal) {
+                if (currentColor == goal2 && previousColor == goal1) {
                     endTime = System.currentTimeMillis()
                     val reactionTime = endTime - startTime
                     val winText = Toast.makeText(this, "Вы победили!", Toast.LENGTH_SHORT)
@@ -122,11 +149,11 @@ class activity_easy_game : ActivityWithoutBack() {
                     val reactionShow = Toast.makeText(this, "время реакции $reactionTimeString", Toast.LENGTH_SHORT)
                     reactionShow.show()
                     // сохранение рекорда
-                    val sharedPrefs = getSharedPreferences("RecordsPrefs", Context.MODE_PRIVATE)
-                    val recordEz = sharedPrefs.getLong("recordEz", Long.MAX_VALUE)
-                    if (reactionTime < recordEz) {
-                        val editor = sharedPrefs.edit()
-                        editor.putLong("recordEz", reactionTime)
+                    val sharedPrefs2 = getSharedPreferences("RecordsPrefs2", Context.MODE_PRIVATE)
+                    val recordMedium = sharedPrefs2.getLong("recordMedium", Long.MAX_VALUE)
+                    if (reactionTime < recordMedium) {
+                        val editor = sharedPrefs2.edit()
+                        editor.putLong("recordMedium", reactionTime)
                         editor.apply()
                     }
                     // переход к выбору сложности
@@ -145,6 +172,5 @@ class activity_easy_game : ActivityWithoutBack() {
                 false
             }
         }
-
     }
 }

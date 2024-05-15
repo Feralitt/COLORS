@@ -23,5 +23,11 @@ class selectDiff : ActivityWithoutBack() {
             val toEasyDiffGame = Intent(this, activity_easy_game::class.java)
             startActivity(toEasyDiffGame)
         }
+
+        val buttonMediumDiffGame: Button = findViewById(R.id.buttonMediumDiff)
+        buttonMediumDiffGame.setOnClickListener {
+            val toMediumDiffGame = Intent (this, activity_medium_game::class.java)
+            startActivity(toMediumDiffGame)
+        }
     }
 }

@@ -21,10 +21,12 @@ class activity_medium_game : ActivityWithoutBack() {
     var currentColor = -1
     var previousColor = -1
     val running = true
+    var generation = true
     var goal1 = 0
     var goal2 = 0
     var startTime: Long = 0
     var endTime: Long = 0
+    var randomLuck = -1
 
     @SuppressLint("ClickableViewAccessibility", "MissingInflatedId")
     @OptIn(DelicateCoroutinesApi::class)
@@ -45,10 +47,19 @@ class activity_medium_game : ActivityWithoutBack() {
         val blue: ImageView = findViewById(R.id.blue)
         val purple: ImageView = findViewById(R.id.purple)
 
+
         // tooltip  0 - red, 1 - orange, 2 - yellow, 3 - green, 4 - light_blue, 5 - blue, 6 - purple
         // последнее число в random это не включительно
-        goal1 = (0 until 6 + 1).random()
-        goal2 = (0 until 6 + 1).random()
+
+
+        while (generation) {
+            goal1 = (0 until 6 + 1).random() //генерация цветов для цели
+            goal2 = (0 until 6 + 1).random()
+            if (goal1 != goal2) {
+                generation = false
+            }
+        }
+
         if (goal1 == 0)
             goal1Text.text = "красный"
         else if (goal1 == 1)
@@ -79,15 +90,21 @@ class activity_medium_game : ActivityWithoutBack() {
         else if (goal2 == 6)
             goal2Text.text = "фиолетовый"
 
-
-
         fun game() = runBlocking {
 
             GlobalScope.launch(context = Dispatchers.Main) {
                 while (running) {
                     delay(850)
                     previousColor = currentColor
-                    currentColor = (0 until 6 + 1).random()
+
+                    if (previousColor == goal1) {
+                        randomLuck = (0 until 9 + 1).random()
+                        if (randomLuck < 3) {
+                            currentColor = goal2
+                        } else {currentColor = (0 until 6 + 1).random()}
+                    } else {currentColor = (0 until 6 + 1).random()}
+
+
                     red.visibility = View.INVISIBLE
                     orange.visibility = View.INVISIBLE
                     yellow.visibility = View.INVISIBLE

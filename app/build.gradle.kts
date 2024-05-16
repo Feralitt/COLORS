@@ -11,8 +11,8 @@ android {
         applicationId = "com.example.colors"
         minSdk = 31
         targetSdk = 33
-        versionCode = 5
-        versionName = "1.1.1"
+        versionCode = 6
+        versionName = "1.2.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

@@ -1,6 +1,5 @@
 package com.example.colors
 
-
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
@@ -12,7 +11,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import kotlinx.coroutines.*
-
 
 class activity_easy_game : ActivityWithoutBack() {
     var currentColor = -1
@@ -28,7 +26,7 @@ class activity_easy_game : ActivityWithoutBack() {
         setContentView(R.layout.activity_easy_game)
 
         val startButton: Button = findViewById(R.id.buttonStart)
-        val goalText: TextView = findViewById(R.id.textViewGoal1Medium)
+        val goalText: TextView = findViewById(R.id.textViewGoal1Hard)
         val ezButton: Button = findViewById(R.id.easyButton)
         val red: ImageView = findViewById(R.id.red)
         val orange: ImageView = findViewById(R.id.orange)

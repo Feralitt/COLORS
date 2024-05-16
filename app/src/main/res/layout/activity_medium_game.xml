@@ -7,7 +7,7 @@
     tools:context=".activity_medium_game">
 
     <TextView
-        android:id="@+id/textViewGoal1Medium"
+        android:id="@+id/textViewGoal1Hard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="144dp"
@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textViewGoal2Medium"
+        android:id="@+id/textViewGoal2Hard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
@@ -27,10 +27,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewGoal1Medium" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewGoal1Hard" />
 
     <TextView
-        android:id="@+id/textViewGoalTextMedium"
+        android:id="@+id/textViewGoalTextHard"
         android:layout_width="318dp"
         android:layout_height="74dp"
         android:layout_marginTop="68dp"

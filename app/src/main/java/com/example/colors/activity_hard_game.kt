@@ -17,7 +17,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
-class activity_medium_game : ActivityWithoutBack() {
+class activity_hard_game : ActivityWithoutBack() {
     var currentColor = -1
     var previousColor = -1
     val running = true
@@ -32,7 +32,7 @@ class activity_medium_game : ActivityWithoutBack() {
     @OptIn(DelicateCoroutinesApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_medium_game)
+        setContentView(R.layout.activity_hard_game)
 
         val startButton: Button = findViewById(R.id.buttonStart)
         val goal1Text: TextView = findViewById(R.id.textViewGoal1Hard)
@@ -94,7 +94,7 @@ class activity_medium_game : ActivityWithoutBack() {
 
             GlobalScope.launch(context = Dispatchers.Main) {
                 while (running) {
-                    delay(850)
+                    delay(500)
                     previousColor = currentColor
 
                     if (previousColor == goal1) {
@@ -166,11 +166,11 @@ class activity_medium_game : ActivityWithoutBack() {
                     val reactionShow = Toast.makeText(this, "время реакции $reactionTimeString", Toast.LENGTH_SHORT)
                     reactionShow.show()
                     // сохранение рекорда
-                    val sharedPrefs2 = getSharedPreferences("RecordsPrefs2", Context.MODE_PRIVATE)
-                    val recordMedium = sharedPrefs2.getLong("recordMedium", Long.MAX_VALUE)
-                    if (reactionTime < recordMedium) {
-                        val editor = sharedPrefs2.edit()
-                        editor.putLong("recordMedium", reactionTime)
+                    val sharedPrefs3 = getSharedPreferences("RecordsPrefs3", Context.MODE_PRIVATE)
+                    val recordHard = sharedPrefs3.getLong("recordMedium", Long.MAX_VALUE)
+                    if (reactionTime < recordHard) {
+                        val editor = sharedPrefs3.edit()
+                        editor.putLong("recordHard", reactionTime)
                         editor.apply()
                     }
                     // переход к выбору сложности

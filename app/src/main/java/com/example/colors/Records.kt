@@ -14,13 +14,16 @@ class Records : ActivityWithoutBack() {
         setContentView(R.layout.activity_records)
         val labelRecordEz: TextView = findViewById(R.id.labelRecordsEasy)
         val labelRecordMedium: TextView = findViewById(R.id.labelRecordsMedium)
+        val labelRecordHard: TextView = findViewById(R.id.labelRecordsHard)
         val buttonClearRecords: Button = findViewById(R.id.buttonClearRecords)
 
         val sharedPrefs = getSharedPreferences("RecordsPrefs", Context.MODE_PRIVATE)
         val sharedPrefs2 = getSharedPreferences("RecordsPrefs2", Context.MODE_PRIVATE)
+        val sharedPrefs3 = getSharedPreferences("RecordsPrefs3", Context.MODE_PRIVATE)
         // если рекорда нет, он -1
         var recordEz = sharedPrefs.getLong("recordEz", -1)
         var recordMedium = sharedPrefs2.getLong("recordMedium", -1)
+        var recordHard = sharedPrefs3.getLong("RecordHard", -1)
 
         // рекорды для лёгкой сложности
         // если рекорда нет, то он None, а если есть, то он записывавется в переменную
@@ -48,6 +51,18 @@ class Records : ActivityWithoutBack() {
         else "0,${recordMedium} сек"
         labelRecordMedium.text = recordTextMedium
 
+        // рекорды для сложной сложности
+        // если рекорда нет, то он None, а если есть, то он записывавется в переменную
+        val recordTextHard = if (recordHard == -1L)
+            "None"
+        else if (recordHard < 10) {
+            "0,00${recordHard} сек"
+        }
+        else if (recordHard < 100) {
+            "0,0${recordHard} сек"
+        }
+        else "0,${recordHard} сек"
+        labelRecordHard.text = recordTextHard
 
 
 
@@ -70,6 +85,12 @@ class Records : ActivityWithoutBack() {
             editorMedium.remove("recordMedium")
             editorMedium.apply()
             labelRecordMedium.text = "None"
+
+            //сброс рекорда сложной сложности
+            val editorHard = sharedPrefs3.edit()
+            editorHard.remove("recordHard")
+            editorHard.apply()
+            labelRecordHard.text = "None"
     }
     }
 }

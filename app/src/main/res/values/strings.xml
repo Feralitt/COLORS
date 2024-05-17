@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">COLORS</string>
+    <string name="prompt_title">Твоя цель - нажать после комбинации цветов:</string>
+    <string name="buttonStart">Начать</string>
 </resources>

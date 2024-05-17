@@ -18,12 +18,10 @@ class Records : ActivityWithoutBack() {
         val buttonClearRecords: Button = findViewById(R.id.buttonClearRecords)
 
         val sharedPrefs = getSharedPreferences("RecordsPrefs", Context.MODE_PRIVATE)
-        val sharedPrefs2 = getSharedPreferences("RecordsPrefs2", Context.MODE_PRIVATE)
-        val sharedPrefs3 = getSharedPreferences("RecordsPrefs3", Context.MODE_PRIVATE)
         // если рекорда нет, он -1
         var recordEz = sharedPrefs.getLong("recordEz", -1)
-        var recordMedium = sharedPrefs2.getLong("recordMedium", -1)
-        var recordHard = sharedPrefs3.getLong("RecordHard", -1)
+        var recordMedium = sharedPrefs.getLong("recordMedium", -1)
+        var recordHard = sharedPrefs.getLong("RecordHard", -1)
 
         // рекорды для лёгкой сложности
         // если рекорда нет, то он None, а если есть, то он записывавется в переменную
@@ -74,22 +72,13 @@ class Records : ActivityWithoutBack() {
         }
         //сброс рекордов
         buttonClearRecords.setOnClickListener{
-            //сброс easy сложности
             val editor = sharedPrefs.edit()
             editor.remove("recordEz")
+            editor.remove("recordMedium")
+            editor.remove("recordHard")
             editor.apply()
             labelRecordEz.text = "None"
-
-            //сброс рекорда средней сложности
-            val editorMedium = sharedPrefs2.edit()
-            editorMedium.remove("recordMedium")
-            editorMedium.apply()
             labelRecordMedium.text = "None"
-
-            //сброс рекорда сложной сложности
-            val editorHard = sharedPrefs3.edit()
-            editorHard.remove("recordHard")
-            editorHard.apply()
             labelRecordHard.text = "None"
     }
     }

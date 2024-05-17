@@ -19,7 +19,7 @@
             android:name=".customSettings"
             android:exported="false" />
         <activity
-            android:name=".activity_medium_game"
+            android:name=".activity_game"
             android:exported="false" />
         <activity
             android:name=".activity_easy_game"

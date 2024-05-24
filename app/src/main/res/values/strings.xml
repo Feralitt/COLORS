@@ -12,4 +12,5 @@
     <string name="custom_settings_back">назад</string>
     <string name="custom_settings_play">играть</string>
     <string name="custom_settings_time">%.3f сек</string>
+    <string name="customColorsTitle">последовательность цветов:</string>
 </resources>

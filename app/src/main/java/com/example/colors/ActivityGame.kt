@@ -123,9 +123,6 @@ class ActivityGame : ActivityWithoutBack() {
                 val reactionTime = endTime - startTime
                 val winText = Toast.makeText(this, "Вы победили!", Toast.LENGTH_SHORT)
                 winText.show()
-                // обработка времени реакции
-                val reactionShow = Toast.makeText(this, "время реакции %.3f сек".format(reactionTime / 1000.0), Toast.LENGTH_SHORT)
-                reactionShow.show()
                 // сохранение рекорда
                 if (diffName != null) {
                     val sharedPrefs2 = getSharedPreferences("RecordsPrefs", Context.MODE_PRIVATE)
@@ -134,7 +131,16 @@ class ActivityGame : ActivityWithoutBack() {
                         val editor = sharedPrefs2.edit()
                         editor.putLong(diffName, reactionTime)
                         editor.apply()
+                        val reactionShow = Toast.makeText(this, "новый рекорд! время реакции %.3f сек".format(reactionTime / 1000.0), Toast.LENGTH_SHORT)
+                        reactionShow.show()
+                    } else {
+                        val reactionShow = Toast.makeText(this, "время реакции %.3f сек".format(reactionTime / 1000.0), Toast.LENGTH_SHORT)
+                        reactionShow.show()
                     }
+
+                } else {
+                    val reactionShow = Toast.makeText(this, "время реакции %.3f сек".format(reactionTime / 1000.0), Toast.LENGTH_SHORT)// если выбран custom
+                    reactionShow.show()
                 }
             } else {
                 // обработка проигрыша

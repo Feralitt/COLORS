@@ -9,8 +9,13 @@
     <string name="clear_records_no">Нет</string>
     <string name="custom_setting_title">настройка custom</string>
     <string name="custom_setting_subtitle">интервал между цветами</string>
-    <string name="custom_settings_back">назад</string>
-    <string name="custom_settings_play">играть</string>
+    <string name="buttonBack">назад</string>
+    <string name="buttonPlay">играть</string>
     <string name="custom_settings_time">%.3f сек</string>
     <string name="customColorsTitle">последовательность цветов:</string>
+    <string name="menuSubtitle">Тест на реакцию</string>
+    <string name="buttonRecords">рекорды</string>
+    <string name="recordsTitle">Рекорды</string>
+    <string name="buttonClearRecords">сброс</string>
+    <string name="selectDiffTitle">выбор сложности</string>
 </resources>

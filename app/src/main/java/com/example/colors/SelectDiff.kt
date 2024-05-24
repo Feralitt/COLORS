@@ -39,7 +39,7 @@ class SelectDiff : ActivityWithoutBack() {
         buttonHardDiffGame.setOnClickListener {
             val toHardDiffGame = Intent (this, ActivityGame::class.java)
             toHardDiffGame.putExtra("count colors", 2)
-            toHardDiffGame.putExtra("diffName", "RecordHard")
+            toHardDiffGame.putExtra("diffName", "recordHard")
             toHardDiffGame.putExtra("delay", 500L)
             startActivity(toHardDiffGame)
         }

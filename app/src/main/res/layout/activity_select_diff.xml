@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".selectDiff">
+    tools:context=".SelectDiff">
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="52dp"
-        android:text="выбор сложности"
+        android:text="@string/selectDiffTitle"
         android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -64,10 +64,10 @@
         android:id="@+id/buttonBackSelectDiff"
         android:layout_width="127dp"
         android:layout_height="77dp"
-        android:layout_marginTop="104dp"
-        android:text="назад"
+        android:layout_marginBottom="84dp"
+        android:text="@string/buttonBack"
         android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonCustomDiff" />
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

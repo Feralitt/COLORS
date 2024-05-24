@@ -107,7 +107,7 @@
             android:layout_marginStart="0dp"
             android:layout_marginBottom="0dp"
             android:gravity="center"
-            android:text="@string/custom_settings_back"
+            android:text="@string/buttonBack"
             android:textSize="30sp" />
 
         <Button
@@ -117,7 +117,7 @@
             android:layout_marginStart="12dp"
             android:layout_marginBottom="0dp"
             android:gravity="center"
-            android:text="@string/custom_settings_play"
+            android:text="@string/buttonPlay"
             android:textSize="30sp" />
     </LinearLayout>
 

@@ -90,7 +90,6 @@ class ActivityGame : ActivityWithoutBack() {
     }
 
     private fun game() = runBlocking {
-
         GlobalScope.launch(context = Dispatchers.Main) {
             while (running) {
                 delay(delayTime)

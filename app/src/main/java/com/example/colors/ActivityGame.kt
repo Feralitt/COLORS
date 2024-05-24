@@ -17,7 +17,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
-class activity_game : ActivityWithoutBack() {
+class ActivityGame : ActivityWithoutBack() {
     private var countColors = 0
     private var goals = mutableListOf<MyColors>()
     private var currentColors = mutableListOf<MyColors>()
@@ -25,6 +25,9 @@ class activity_game : ActivityWithoutBack() {
     private var lenghtStrike = 0
     private lateinit var startButton: Button
     private var diffName: String? = null
+
+    private lateinit var goalText: TextView
+    private lateinit var goalTitleText: TextView
 
     val running = true
     var startTime: Long = 0
@@ -38,14 +41,20 @@ class activity_game : ActivityWithoutBack() {
         setContentView(R.layout.activity_game)
 
         startButton = findViewById(R.id.buttonStart)
-        val goalText: TextView = findViewById(R.id.textViewGoal)
-        val goalTitleText: TextView = findViewById(R.id.textViewGoalTextHard)
-        val colorView: ImageView = findViewById(R.id.color)
+        goalText = findViewById(R.id.textViewGoal)
+        goalTitleText = findViewById(R.id.textViewGoalTextHard)
+
 
         countColors = intent.getIntExtra("count colors", 0)
         diffName = intent.getStringExtra("diffName")
         val colorsIndexes = intent.getIntArrayExtra("colors")
         delayTime = intent.getLongExtra("delay", 0L)
+
+        if (countColors == 1) {
+            goalTitleText.text = getString(R.string.prompt_title_one)
+        } else {
+            goalTitleText.text = getString(R.string.prompt_title)
+        }
 
         if (colorsIndexes == null) {
             //генерация цветов для цели
@@ -75,33 +84,36 @@ class activity_game : ActivityWithoutBack() {
         }
         goalText.setText(text)
 
+        startButton.setOnClickListener {
+            startGame();
+        }
+    }
 
-        fun game() = runBlocking {
+    private fun game() = runBlocking {
 
-            GlobalScope.launch(context = Dispatchers.Main) {
-                while (running) {
-                    delay(delayTime)
+        GlobalScope.launch(context = Dispatchers.Main) {
+            while (running) {
+                delay(delayTime)
 
-                    var newColor = MyColors.entries.toTypedArray().random()
-                    while (currentColors.isNotEmpty() && currentColors.last() == newColor)
-                        newColor = MyColors.entries.toTypedArray().random()
-                    currentColors.add(newColor)
-                    if (currentColors.size > countColors)
-                        currentColors.removeFirst()
-                    // TODO: Реализовать страйк
-
-                    colorView.setBackgroundColor(newColor.getColor())
-                    startTime = System.currentTimeMillis()
-                }
+                var newColor = MyColors.entries.toTypedArray().random()
+                while (currentColors.isNotEmpty() && currentColors.last() == newColor)
+                    newColor = MyColors.entries.toTypedArray().random()
+                currentColors.add(newColor)
+                if (currentColors.size > countColors)
+                    currentColors.removeFirst()
+                // TODO: Реализовать страйк
+                val colorView: ImageView = findViewById(R.id.color)
+                colorView.setBackgroundColor(newColor.getColor())
+                startTime = System.currentTimeMillis()
             }
         }
+    }
 
-        startButton.setOnClickListener {
-            goalText.visibility = View.GONE
-            goalTitleText.visibility = View.GONE
-            startButton.visibility = View.GONE
-            game()
-        }
+    private fun startGame() {
+        goalText.visibility = View.GONE
+        goalTitleText.visibility = View.GONE
+        startButton.visibility = View.GONE
+        game()
     }
 
     override fun onTouchEvent(motionEvent: MotionEvent?): Boolean {
@@ -113,12 +125,7 @@ class activity_game : ActivityWithoutBack() {
                 val winText = Toast.makeText(this, "Вы победили!", Toast.LENGTH_SHORT)
                 winText.show()
                 // обработка времени реакции
-                val reactionTimeString = when {
-                    reactionTime < 10 -> "0,00$reactionTime сек"
-                    reactionTime < 100 -> "0,0$reactionTime сек"
-                    else -> "0,$reactionTime сек"
-                }
-                val reactionShow = Toast.makeText(this, "время реакции $reactionTimeString", Toast.LENGTH_SHORT)
+                val reactionShow = Toast.makeText(this, "время реакции %.3f сек".format(reactionTime / 1000.0), Toast.LENGTH_SHORT)
                 reactionShow.show()
                 // сохранение рекорда
                 if (diffName != null) {
@@ -136,7 +143,7 @@ class activity_game : ActivityWithoutBack() {
                 loseText.show()
             }
             // переход к выбору сложности
-            val toActivitySelectDiff = Intent(this, selectDiff::class.java)
+            val toActivitySelectDiff = Intent(this, SelectDiff::class.java)
             startActivity(toActivitySelectDiff)
             return true // дальше нужная шняга чтобы setOnTouch работал
         }

@@ -8,8 +8,10 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
+import android.widget.ScrollView
 import android.widget.SeekBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintSet.Layout
 
 class CustomSettings : ActivityWithoutBack() {
@@ -19,13 +21,13 @@ class CustomSettings : ActivityWithoutBack() {
     private lateinit var buttonColorPrototipe: Button
     private lateinit var layoutColors: LinearLayout
     private lateinit var layoutSelectedColors: LinearLayout
+    private lateinit var colorsScroll: ScrollView
 
     private lateinit var sharedPrefs: SharedPreferences
     private lateinit var editor: SharedPreferences.Editor
 
-
     private var delay: Long = 0L
-    private var colors: MutableList<Int> = mutableListOf(0, 1, 0)
+    private var colors: MutableList<Int> = mutableListOf()
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,6 +37,8 @@ class CustomSettings : ActivityWithoutBack() {
         sharedPrefs = getSharedPreferences("RecordsPrefs", Context.MODE_PRIVATE)
         editor = sharedPrefs.edit()
         delay = sharedPrefs.getLong("custom_delay", 500L)
+        colors = getColors()
+
         seekBar = findViewById(R.id.seekBar)
         seekBar.progress = delay.toInt()
         textViewTime = findViewById(R.id.textViewTime)
@@ -42,6 +46,7 @@ class CustomSettings : ActivityWithoutBack() {
         layoutColors = findViewById(R.id.layoutColors)
         buttonColorPrototipe = findViewById(R.id.buttonColorPrototipe)
         layoutSelectedColors = findViewById(R.id.layoutSelectedColors)
+        colorsScroll = findViewById(R.id.colorsScroll)
 
         val buttonBack: Button = findViewById(R.id.buttonBackCustomDiff)
         buttonBack.setOnClickListener {
@@ -63,11 +68,17 @@ class CustomSettings : ActivityWithoutBack() {
             }
         })
         buttonPlayCustomDiff.setOnClickListener {
-            val toCustomGame = Intent(this, ActivityGame::class.java)
-            toCustomGame.putExtra("count colors", colors.size)
-            toCustomGame.putExtra("delay", delay)
-            toCustomGame.putExtra("colors", colors.toIntArray())
-            startActivity(toCustomGame)
+            if (colors.isEmpty()) {
+                Toast
+                    .makeText(this, "Вы не выбрали цветов!", Toast.LENGTH_SHORT)
+                    .show()
+            } else {
+                val toCustomGame = Intent(this, ActivityGame::class.java)
+                toCustomGame.putExtra("count colors", colors.size)
+                toCustomGame.putExtra("delay", delay)
+                toCustomGame.putExtra("colors", colors.toIntArray())
+                startActivity(toCustomGame)
+            }
         }
         updateDelay()
         generateColorButtons()
@@ -81,23 +92,67 @@ class CustomSettings : ActivityWithoutBack() {
 
     private fun generateColorButtons() {
         MyColors.entries.map {
-            val newButton = Button(this)
+            val newButton = ButtonColor(this)
             newButton.layoutParams = buttonColorPrototipe.layoutParams
-            newButton.setBackgroundColor(it.getColor())
+            newButton.color = it
             layoutColors.addView(newButton)
+            newButton.setOnClickListener {
+                colors.add((it as ButtonColor).color!!.index)
+                updateSelectedColors()
+            }
         }
         layoutColors.removeView(buttonColorPrototipe)
         buttonColorPrototipe.visibility = View.INVISIBLE
     }
 
     private fun updateSelectedColors() {
+        // Удаление повторяющихся цветов
         layoutSelectedColors.removeAllViews()
+        for (i in colors.size - 1 downTo 1) {
+            if (colors[i] == colors[i - 1]) {
+                colors.removeAt(i)
+            }
+        }
+        saveColors()
+
         colors.map {
             val newText = TextView(this)
             newText.text = MyColors.entries[it].getString() + " \uD83D\uDDD1"
             newText.textSize = 23F
             newText.textAlignment = View.TEXT_ALIGNMENT_CENTER
             layoutSelectedColors.addView(newText)
+            newText.setOnClickListener {
+                val index = layoutSelectedColors.indexOfChild(it)
+                colors.removeAt(index)
+                layoutSelectedColors.removeViewAt(index)
+                updateSelectedColors()
+            }
         }
+        colorsScroll.fullScroll(View.FOCUS_DOWN)
+        colorsScroll.scrollBy(0, 100)
+    }
+
+    private fun getColors(): MutableList<Int> {
+        try {
+            return sharedPrefs
+                .getString("custom_colors", "")!!
+                .split(',')
+                .map { it.toInt() }
+                .toMutableList()
+        } catch (e: Exception) {
+            return mutableListOf()
+        }
+    }
+
+    private fun saveColors() {
+        val colorsString = StringBuilder()
+        for (i in colors.indices) {
+            if (i != 0) {
+                colorsString.append(',')
+            }
+            colorsString.append(colors[i])
+        }
+        editor.putString("custom_colors", colorsString.toString())
+        editor.apply()
     }
 }

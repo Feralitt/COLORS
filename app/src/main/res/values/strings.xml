@@ -1,5 +1,15 @@
 <resources>
     <string name="app_name">COLORS</string>
+    <string name="prompt_title_one">Твоя цель - нажать после цвета:</string>
     <string name="prompt_title">Твоя цель - нажать после комбинации цветов:</string>
     <string name="buttonStart">Начать</string>
+    <string name="no_record">None</string>
+    <string name="clear_records">Очистить все рекорды?</string>
+    <string name="clear_records_yes">Да</string>
+    <string name="clear_records_no">Нет</string>
+    <string name="custom_setting_title">настройка custom</string>
+    <string name="custom_setting_subtitle">интервал между цветами</string>
+    <string name="custom_settings_back">назад</string>
+    <string name="custom_settings_play">играть</string>
+    <string name="custom_settings_time">%.3f сек</string>
 </resources>

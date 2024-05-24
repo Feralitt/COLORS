@@ -1,70 +1,38 @@
 package com.example.colors
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 
 class Records : ActivityWithoutBack() {
+    private val NO_RECORD = -1L     // если рекорда нет, он -1
+    private lateinit var sharedPrefs: SharedPreferences
+    private lateinit var labelRecordEz: TextView
+    private lateinit var labelRecordMedium: TextView
+    private lateinit var labelRecordHard: TextView
+
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_records)
-        val labelRecordEz: TextView = findViewById(R.id.labelRecordsEasy)
-        val labelRecordMedium: TextView = findViewById(R.id.labelRecordsMedium)
-        val labelRecordHard: TextView = findViewById(R.id.labelRecordsHard)
+        labelRecordEz = findViewById(R.id.labelRecordsEasy)
+        labelRecordMedium = findViewById(R.id.labelRecordsMedium)
+        labelRecordHard = findViewById(R.id.labelRecordsHard)
         val buttonClearRecords: Button = findViewById(R.id.buttonClearRecords)
-
-        val sharedPrefs = getSharedPreferences("RecordsPrefs", Context.MODE_PRIVATE)
-        // если рекорда нет, он -1
-        var recordEz = sharedPrefs.getLong("recordEz", -1)
-        var recordMedium = sharedPrefs.getLong("recordMedium", -1)
-        var recordHard = sharedPrefs.getLong("RecordHard", -1)
-
-        // рекорды для лёгкой сложности
-        // если рекорда нет, то он None, а если есть, то он записывавется в переменную
-        val recordText = if (recordEz == -1L)
-            "None"
-        else if (recordEz < 10) {
-            "0,00${recordEz} сек"
-        }
-        else if (recordEz < 100) {
-            "0,0${recordEz} сек"
-        }
-        else "0,${recordEz} сек"
-        labelRecordEz.text = recordText
-
-        // рекорды для средней сложности
-        // если рекорда нет, то он None, а если есть, то он записывавется в переменную
-        val recordTextMedium = if (recordMedium == -1L)
-            "None"
-        else if (recordMedium < 10) {
-            "0,00${recordMedium} сек"
-        }
-        else if (recordMedium < 100) {
-            "0,0${recordMedium} сек"
-        }
-        else "0,${recordMedium} сек"
-        labelRecordMedium.text = recordTextMedium
-
-        // рекорды для сложной сложности
-        // если рекорда нет, то он None, а если есть, то он записывавется в переменную
-        val recordTextHard = if (recordHard == -1L)
-            "None"
-        else if (recordHard < 10) {
-            "0,00${recordHard} сек"
-        }
-        else if (recordHard < 100) {
-            "0,0${recordHard} сек"
-        }
-        else "0,${recordHard} сек"
-        labelRecordHard.text = recordTextHard
-
-
-
         val buttonBackToMenuRecords: Button = findViewById(R.id.buttonBackToMenu)
+
+        sharedPrefs = getSharedPreferences("RecordsPrefs", Context.MODE_PRIVATE)
+        // рекорды для лёгкой сложности
+        labelRecordEz.text = getRecordStr("recordEz")
+        // рекорды для средней сложности
+        labelRecordMedium.text = getRecordStr("recordMedium")
+        // рекорды для сложной сложности
+        labelRecordHard.text = getRecordStr("recordHard")
 
         buttonBackToMenuRecords.setOnClickListener {
             val activityMainMenu = Intent(this, MainActivity::class.java)
@@ -72,14 +40,31 @@ class Records : ActivityWithoutBack() {
         }
         //сброс рекордов
         buttonClearRecords.setOnClickListener{
-            val editor = sharedPrefs.edit()
-            editor.remove("recordEz")
-            editor.remove("recordMedium")
-            editor.remove("recordHard")
-            editor.apply()
-            labelRecordEz.text = "None"
-            labelRecordMedium.text = "None"
-            labelRecordHard.text = "None"
+            val alertDialogBuilder = AlertDialog.Builder(this)
+            alertDialogBuilder
+                .setMessage(getString(R.string.clear_records))
+                .setNegativeButton(getString(R.string.clear_records_yes)) { _, _ -> resetRecords() }
+                .setPositiveButton(getString(R.string.clear_records_no)) { _, _ ->}
+                .show()
+        }
     }
+
+    @SuppressLint("SetTextI18n")
+    public fun resetRecords() {
+        val editor = sharedPrefs.edit()
+        editor.remove("recordEz")
+        editor.remove("recordMedium")
+        editor.remove("recordHard")
+        editor.apply()
+        labelRecordEz.text = getString(R.string.no_record)
+        labelRecordMedium.text = getString(R.string.no_record)
+        labelRecordHard.text = getString(R.string.no_record)
+    }
+
+    public fun getRecordStr(diffName: String): String {
+        val record: Long = sharedPrefs.getLong(diffName, NO_RECORD)
+        if (record == NO_RECORD)
+            return getString(R.string.no_record)
+        return "%.3f сек".format(record / 1000.0)
     }
 }

@@ -1,7 +1,6 @@
-package com.example.colors
+package com.pmc_shishki.colors
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 

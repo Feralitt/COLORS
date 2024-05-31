@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.colors"
+    namespace = "com.pmc_shishki.colors"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.colors"
+        applicationId = "com.pmc_shishki.colors"
         minSdk = 24
         targetSdk = 34
         versionCode = 9

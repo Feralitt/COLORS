@@ -78,7 +78,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <com.example.colors.ButtonColor
+        <com.pmc_shishki.colors.ButtonColor
             android:id="@+id/buttonColorPrototipe"
             android:layout_width="@dimen/color_button_size"
             android:layout_height="@dimen/color_button_size"

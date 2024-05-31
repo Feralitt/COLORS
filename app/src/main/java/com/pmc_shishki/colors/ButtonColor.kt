@@ -1,4 +1,4 @@
-package com.example.colors
+package com.pmc_shishki.colors
 
 import android.content.Context
 

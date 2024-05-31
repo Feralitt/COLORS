@@ -1,4 +1,4 @@
-package com.example.colors
+package com.pmc_shishki.colors
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog

@@ -1,4 +1,4 @@
-package com.example.colors
+package com.pmc_shishki.colors
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -12,7 +12,6 @@ import android.widget.ScrollView
 import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintSet.Layout
 
 class CustomSettings : ActivityWithoutBack() {
     private lateinit var seekBar: SeekBar

@@ -61,9 +61,9 @@
         android:layout_marginLeft="30dp"
         android:layout_marginTop="84dp"
         android:layout_marginRight="30dp"
-        android:max="1000"
+        android:max="200"
         android:min="1"
-        android:progress="500"
+        android:progress="100"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView8" />

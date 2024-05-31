@@ -16,6 +16,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlin.random.Random
 
 class ActivityGame : ActivityWithoutBack() {
     private var countColors = 0
@@ -29,10 +30,11 @@ class ActivityGame : ActivityWithoutBack() {
     private lateinit var goalText: TextView
     private lateinit var goalTitleText: TextView
 
-    val running = true
-    var startTime: Long = 0
-    var endTime: Long = 0
-//    var randomLuck = -1
+    private val STRIKE_CHANCE: Float = 0.4f
+
+    private val running = true
+    private var startTime: Long = 0
+    private var endTime: Long = 0
 
     @SuppressLint("ClickableViewAccessibility", "MissingInflatedId")
     @OptIn(DelicateCoroutinesApi::class)
@@ -93,14 +95,29 @@ class ActivityGame : ActivityWithoutBack() {
         GlobalScope.launch(context = Dispatchers.Main) {
             while (running) {
                 delay(delayTime)
+                var newColor: MyColors? = null
 
-                var newColor = MyColors.entries.toTypedArray().random()
-                while (currentColors.isNotEmpty() && currentColors.last() == newColor)
+                val chance = Random.nextFloat()
+                if (lenghtStrike > 0 && chance <= STRIKE_CHANCE) {
+                    newColor = goals[lenghtStrike]
+                }
+                if (newColor == null) {
                     newColor = MyColors.entries.toTypedArray().random()
-                currentColors.add(newColor)
+                    while (currentColors.isNotEmpty() && currentColors.last() == newColor)
+                        newColor = MyColors.entries.toTypedArray().random()
+                }
+                if (newColor == goals[lenghtStrike]) {
+                    lenghtStrike++
+                    if (lenghtStrike == countColors)
+                        lenghtStrike = 0
+                } else {
+                    lenghtStrike = 0
+                }
+                // TODO lenghtStrike++
+                currentColors.add(newColor!!)
                 if (currentColors.size > countColors)
                     currentColors.removeFirst()
-                // TODO: Реализовать страйк
+
                 val colorView: ImageView = findViewById(R.id.color)
                 colorView.setBackgroundColor(newColor.getColor())
                 startTime = System.currentTimeMillis()

@@ -29,6 +29,8 @@ class CustomSettings : ActivityWithoutBack() {
     private var delay: Long = 0L
     private var colors: MutableList<Int> = mutableListOf()
 
+    private val DELAY_STEP = 5
+
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +42,7 @@ class CustomSettings : ActivityWithoutBack() {
         colors = getColors()
 
         seekBar = findViewById(R.id.seekBar)
-        seekBar.progress = delay.toInt()
+        seekBar.progress = delay.toInt() / DELAY_STEP
         textViewTime = findViewById(R.id.textViewTime)
         buttonPlayCustomDiff = findViewById(R.id.buttonPlayCustomDiff)
         layoutColors = findViewById(R.id.layoutColors)
@@ -86,7 +88,7 @@ class CustomSettings : ActivityWithoutBack() {
     }
 
     private fun updateDelay() {
-        delay = seekBar.progress.toLong()
+        delay = seekBar.progress.toLong() * DELAY_STEP
         textViewTime.text = getString(R.string.custom_settings_time).format(delay / 1000.0)
     }
 

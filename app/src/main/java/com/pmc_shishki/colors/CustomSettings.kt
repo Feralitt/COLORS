@@ -1,6 +1,7 @@
 package com.pmc_shishki.colors
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -71,19 +72,28 @@ class CustomSettings : ActivityWithoutBack() {
         buttonPlayCustomDiff.setOnClickListener {
             if (colors.isEmpty()) {
                 Toast
-                    .makeText(this, "Вы не выбрали цветов!", Toast.LENGTH_SHORT)
+                    .makeText(this, getString(R.string.errorCustomSettings), Toast.LENGTH_SHORT)
                     .show()
-            } else {
-                val toCustomGame = Intent(this, ActivityGame::class.java)
-                toCustomGame.putExtra("count colors", colors.size)
-                toCustomGame.putExtra("delay", delay)
-                toCustomGame.putExtra("colors", colors.toIntArray())
-                startActivity(toCustomGame)
-            }
+            } else if (colors.size > 3) {
+                val alertDialogBuilder = AlertDialog.Builder(this)
+                alertDialogBuilder
+                    .setMessage(getString(R.string.customSettingsAlert))
+                    .setNegativeButton(getString(R.string.clear_records_yes)) { _, _ -> toCustomGame() }
+                    .setPositiveButton(getString(R.string.clear_records_no)) { _, _ ->}
+                    .show()
+            } else toCustomGame()
         }
         updateDelay()
         generateColorButtons()
         updateSelectedColors()
+    }
+
+    private fun toCustomGame(){
+        val toCustomGame = Intent(this, ActivityGame::class.java)
+        toCustomGame.putExtra("count colors", colors.size)
+        toCustomGame.putExtra("delay", delay)
+        toCustomGame.putExtra("colors", colors.toIntArray())
+        startActivity(toCustomGame)
     }
 
     private fun updateDelay() {

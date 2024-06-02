@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">COLORS</string>
-    <string name="prompt_title_one">Твоя цель - нажать после цвета:</string>
-    <string name="prompt_title">Твоя цель - нажать после комбинации цветов:</string>
+    <string name="prompt_title_one">Твоя цель - нажать, когда увидишь цвет:</string>
+    <string name="prompt_title">Твоя цель - нажать, когда увидишь эти цвета подряд:</string>
     <string name="buttonStart">Начать</string>
     <string name="no_record">None</string>
     <string name="clear_records">Очистить все рекорды?</string>
@@ -21,4 +21,10 @@
     <string name="diffNameEasy">easy</string>
     <string name="diffNameMedium">medium</string>
     <string name="diffNameHard">hard</string>
+    <string name="errorCustomSettings">Цвета не выбраны!</string>
+    <string name="reactionTimeNewRecord">новый рекорд! время реакции %.3f сек</string>
+    <string name="reactionTime">время реакции %.3f сек</string>
+    <string name="loseText">Вы проиграли!</string>
+    <string name="winText">Вы победили!</string>
+    <string name="customSettingsAlert">Комбинацию, состоящую из четырёх и более цветов придётся ждать намного дольше, хотите продолжить?</string>
 </resources>

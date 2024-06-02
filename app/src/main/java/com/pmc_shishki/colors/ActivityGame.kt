@@ -138,7 +138,7 @@ class ActivityGame : ActivityWithoutBack() {
             if (goals.equals(currentColors)) {
                 endTime = System.currentTimeMillis()
                 val reactionTime = endTime - startTime
-                val winText = Toast.makeText(this, "Вы победили!", Toast.LENGTH_SHORT)
+                val winText = Toast.makeText(this, getString(R.string.winText), Toast.LENGTH_SHORT)
                 winText.show()
                 // сохранение рекорда
                 if (diffName != null) {
@@ -148,26 +148,26 @@ class ActivityGame : ActivityWithoutBack() {
                         val editor = sharedPrefs2.edit()
                         editor.putLong(diffName, reactionTime)
                         editor.apply()
-                        val reactionShow = Toast.makeText(this, "новый рекорд! время реакции %.3f сек".format(reactionTime / 1000.0), Toast.LENGTH_SHORT)
+                        val reactionShow = Toast.makeText(this, getString(R.string.reactionTimeNewRecord).format(reactionTime / 1000.0), Toast.LENGTH_SHORT)
                         reactionShow.show()
                     } else {
-                        val reactionShow = Toast.makeText(this, "время реакции %.3f сек".format(reactionTime / 1000.0), Toast.LENGTH_SHORT)
+                        val reactionShow = Toast.makeText(this, getString(R.string.reactionTime).format(reactionTime / 1000.0), Toast.LENGTH_SHORT)
                         reactionShow.show()
                     }
 
                 } else {
-                    val reactionShow = Toast.makeText(this, "время реакции %.3f сек".format(reactionTime / 1000.0), Toast.LENGTH_SHORT)// если выбран custom
+                    val reactionShow = Toast.makeText(this, getString(R.string.reactionTime).format(reactionTime / 1000.0), Toast.LENGTH_SHORT)// если выбран custom
                     reactionShow.show()
                 }
             } else {
                 // обработка проигрыша
-                val loseText = Toast.makeText(this, "Вы проиграли!", Toast.LENGTH_SHORT)
+                val loseText = Toast.makeText(this, getString(R.string.loseText), Toast.LENGTH_SHORT)
                 loseText.show()
             }
             // переход к выбору сложности
             val toActivitySelectDiff = Intent(this, SelectDiff::class.java)
             startActivity(toActivitySelectDiff)
-            return true // дальше нужная шняга чтобы setOnTouch работал
+            return true // дальше нужная шняга чтобы onTouch работал
         }
         return super.onTouchEvent(motionEvent)
     }

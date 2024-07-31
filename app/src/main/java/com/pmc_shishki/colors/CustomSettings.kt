@@ -36,6 +36,14 @@ class CustomSettings : ActivityWithoutBack() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_custom_settings)
 
+        // скрываем все панели и кнопки
+        window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_FULLSCREEN
+                or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
+
         sharedPrefs = getSharedPreferences("RecordsPrefs", Context.MODE_PRIVATE)
         editor = sharedPrefs.edit()
         delay = sharedPrefs.getLong("custom_delay", 500L)

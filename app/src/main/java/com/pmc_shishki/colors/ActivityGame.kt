@@ -42,6 +42,14 @@ class ActivityGame : ActivityWithoutBack() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
 
+        // скрываем все панели и кнопки
+        window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_FULLSCREEN
+                or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
+
         startButton = findViewById(R.id.buttonStart)
         goalText = findViewById(R.id.textViewGoal)
         goalTitleText = findViewById(R.id.textViewGoalTextHard)

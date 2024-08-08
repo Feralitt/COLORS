@@ -24,7 +24,7 @@ enum class MyColors(val index: Int) {
         override fun getString(): String = "голубой"
     },
     BLUE(5) {
-        override fun getColor(): Int = Color.parseColor("#FF0000FF")
+        override fun getColor(): Int = Color.parseColor("#FF2643FF")
         override fun getString(): String = "синий"
     },
     PURPLE(6) {
